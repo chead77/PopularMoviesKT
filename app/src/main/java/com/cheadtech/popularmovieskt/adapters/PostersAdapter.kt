@@ -27,4 +27,10 @@ class PostersAdapter(
         holder.poster.contentDescription = holder.poster.context.getString(R.string.movie_poster_content_description, dataSet[position].title)
         holder.poster.setOnClickListener { callback.invoke(dataSet[position]) }
     }
+
+    fun setData(data: ArrayList<Movie>) {
+        dataSet.clear()
+        dataSet.addAll(data)
+        notifyDataSetChanged()
+    }
 }
