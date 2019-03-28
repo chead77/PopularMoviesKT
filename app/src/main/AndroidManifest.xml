@@ -1,21 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.cheadtech.popularmovieskt">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.cheadtech.popularmovieskt">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        >
+
+        <activity
+            android:name=".activities.PostersActivity"
+            android:launchMode="singleTop"
+            >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
         </activity>
+
+        <activity android:name=".activities.PostersSettingsActivity"
+            android:label="@string/action_settings"
+            android:parentActivityName=".activities.PostersActivity"
+            />
+
+        <activity android:name=".activities.DetailActivity"
+            android:label="@string/movie_detail_label"
+            android:parentActivityName=".activities.PostersActivity"
+            />
+
     </application>
 
 </manifest>
