@@ -59,7 +59,8 @@ class PostersFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeLi
         viewModel.moviesLiveData.observe(this, Observer { updateMoviesAdapter(it) })
 
         // TODO - look into changing getAllFavoritesLive so it returns an RX observable to be observed in the viewModel instead of the fragment
-        DatabaseLoader.getDbInstance(requireContext())?.popularMoviesDao()?.getAllFavoritesLive()?.observe(this, Observer {
+        DatabaseLoader.getDbInstance(requireContext())
+            ?.popularMoviesDao()?.getAllFavoritesLive()?.observe(this, Observer {
             it ?: return@Observer
 
             if (sharedPreferences.contains(getString(R.string.pref_sort_by_key))) {
@@ -98,12 +99,7 @@ class PostersFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeLi
                 }
             }
         )
-        sharedPreferences.registerOnSharedPreferenceChangeListener { preferences, key ->
-            when (key) {
-                getString(R.string.pref_sort_by_key) ->
-                    viewModel.refreshMovieList(preferences.getString(getString(R.string.pref_sort_by_key), getString(R.string.pref_sort_by_popular_value)))
-            }
-        }
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onDestroy() {

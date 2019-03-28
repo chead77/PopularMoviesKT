@@ -13,8 +13,8 @@ interface TMDBService {
     fun getMovies(@Path("sort_by") sortBy: String, @Query("api_key") apiKey: String): Call<MovieResults>
 
     @GET("3/movie/{id}/videos")
-    fun getTrailers(@Path("sort_by") sortBy: String, @Query("api_key") apiKey: String): Call<TrailerResults>
+    fun getTrailers(@Path("id") id: Int, @Query("api_key") apiKey: String): Call<TrailerResults>
 
-    @GET("3/movie/{sort_by}")
-    fun getReviews(@Path("sort_by") sortBy: String, @Query("api_key") apiKey: String): Call<ReviewResults>
+    @GET("3/movie/{id}/reviews")
+    fun getReviews(@Path("id") id: Int, @Query("api_key") apiKey: String): Call<ReviewResults>
 }

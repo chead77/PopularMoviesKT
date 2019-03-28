@@ -37,7 +37,8 @@ class PostersViewModel : ViewModel() {
 
     fun refreshMovieList(sortBy: String?) {
         when (sortBy) {
-            "favorites" -> sortByFavorites()
+            "favorites" ->
+                sortByFavorites()
             "popular", "top_rated" -> {
                 val service = ServiceLocator.getTMDBService()
                 service.getMovies(sortBy, BuildConfig.API_KEY).enqueue(object : Callback<MovieResults> {
@@ -65,7 +66,8 @@ class PostersViewModel : ViewModel() {
     private fun sortByFavorites() {
         thread {
             try {
-                db?.popularMoviesDao()?.also { sortByFavorites(it.getAllFavorites()) }
+                db?.popularMoviesDao()?.also {
+                    sortByFavorites( it.getAllFavorites()) }
             } catch (e: Exception) {
                 Log.e(tag, e.message)
                 callback?.onDBError()
@@ -82,9 +84,10 @@ class PostersViewModel : ViewModel() {
         ArrayList<Movie>().also { movies ->
             favorites.forEach {
                 movies.add(Movie(0, it.id, true, it.voteAverage, it.title, 0.0,
-                    it.posterPath, null, it.originalTitle, ArrayList(), null,
+                    it.posterPath, null, it.originalTitle, null,
                     false, it.movieOverview, it.releaseDate))
             }
+            moviesLiveData.postValue(movies)
         }
     }
 }

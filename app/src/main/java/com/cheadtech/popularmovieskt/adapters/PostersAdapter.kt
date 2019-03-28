@@ -8,12 +8,19 @@ import com.cheadtech.popularmovieskt.R
 import com.cheadtech.popularmovieskt.models.Movie
 import com.cheadtech.popularmovieskt.viewholders.PosterViewHolder
 import com.squareup.picasso.Picasso
+import org.jetbrains.anko.sdk25.coroutines.onClick
 
 class PostersAdapter(
-    @NonNull private val dataSet: ArrayList<Movie>,
+    @NonNull private val dataSet: ArrayList<Movie> = ArrayList(),
     @NonNull private var posterUrlBase: String,
     @NonNull private val callback: (Movie) -> Unit
 ) : RecyclerView.Adapter<PosterViewHolder>() {
+    fun setData(data: ArrayList<Movie>) {
+        dataSet.clear()
+        dataSet.addAll(data)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): PosterViewHolder =
         PosterViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.poster_item, parent, false))
 
@@ -25,12 +32,6 @@ class PostersAdapter(
             .error(R.drawable.ic_error_outline_black)
             .into(holder.poster)
         holder.poster.contentDescription = holder.poster.context.getString(R.string.movie_poster_content_description, dataSet[position].title)
-        holder.poster.setOnClickListener { callback.invoke(dataSet[position]) }
-    }
-
-    fun setData(data: ArrayList<Movie>) {
-        dataSet.clear()
-        dataSet.addAll(data)
-        notifyDataSetChanged()
+        holder.poster.onClick { callback.invoke(dataSet[position]) }
     }
 }
